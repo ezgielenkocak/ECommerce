@@ -18,7 +18,7 @@ namespace ECommerce.Core.Entities
         public int Stock { get; set; }
         [Display(Name="Active")]
         public bool IsActive { get; set; }
-        [Display(Name = "See In Homepage")]
+        [Display(Name = "Homepage")]
         public bool IsHome { get; set; }
 
         [Display(Name="Category")]

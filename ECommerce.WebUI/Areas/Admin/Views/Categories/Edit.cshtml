@@ -1,7 +1,7 @@
-﻿@model Brand
+﻿@model Category
 
 @{
-    ViewData["Title"] = "Edit Brand";
+    ViewData["Title"] = "Edit Category";
 }
 
 <hr />
@@ -10,8 +10,8 @@
         <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="Logo" />
             <input type="hidden" asp-for="CreateDate" />
+            <input type="hidden" asp-for="Image" />
 
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -20,26 +20,37 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control"></textarea> 
+                <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" type="file" id="uploadLogo"/>
-                <span asp-validation-for="Logo" class="text-danger"></span>
-                @if(Model.Logo != null && !string.IsNullOrWhiteSpace(Model.Logo))
-                { 
-                    <img id="preview" src="/Img/@Model.Logo" height="75"/>
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" type="file" id="uploadImage" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+                @if(Model.Image != null && !string.IsNullOrWhiteSpace(Model.Image))
+                {
+                    <img id="preview" src="/Img/@Model.Image" height="75"/>
                     <label class="form-check-label">
-                        @Html.CheckBox("deleteLogo")
+                        @Html.CheckBox("deleteImage") Delete Image  
                     </label>
                 }
-
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsTopMenu" /> @Html.DisplayNameFor(model => model.IsTopMenu)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentId" class="control-label"></label>
+                <select asp-for="ParentId" class="form-select" asp-items="ViewBag.Categories">
+                    <option value="0">Main Category</option>
+                </select>
+                <span asp-validation-for="ParentId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="OrderNo" class="control-label"></label>
@@ -47,7 +58,7 @@
                 <span asp-validation-for="OrderNo" class="text-danger"></span>
             </div>
             <div class="form-group mt-2">
-                <input type="submit" value="Save" class="btn btn-primary sm-2" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -56,9 +67,11 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-@section Scripts {
+
+@section Scripts
+{
     <script>
-        document.getElementById("uploadLogo").addEventListener("change", function (event) {
+        document.getElementById("uploadImage").addEventListener("change", function (event) {
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -70,4 +83,3 @@
         });
     </script>
 }
-
